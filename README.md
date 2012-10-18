@@ -9,4 +9,7 @@ starting Sonar and then running:
 and you should see the error.
 
 Also see:
-https://github.com/cucumber/cucumber-jvm/issues/322
+ https://github.com/cucumber/cucumber-jvm/issues/322
+
+Possible fix I haven't tried yet:
+ https://github.com/pettermahlen/cucumber-jvm/tree/cucumber-jvm-322
