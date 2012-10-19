@@ -70,4 +70,14 @@
       </plugin>
     </plugins>
   </build>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <uniqueVersion>true</uniqueVersion>
+      <id>xeric</id>
+      <name>Xeric Snapshots</name>
+      <url>http://apps.xeric.net/nexus/content/repositories/snapshots</url>
+      <layout>default</layout>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
