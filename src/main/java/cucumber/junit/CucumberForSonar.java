@@ -1,5 +1,6 @@
 package cucumber.junit;
 
+import cucumber.formatter.FormatterConverter;
 import cucumber.io.MultiLoader;
 import cucumber.io.ResourceLoader;
 import cucumber.runtime.CucumberException;
@@ -9,10 +10,6 @@ import cucumber.runtime.model.CucumberFeature;
 import cucumber.runtime.snippets.SummaryPrinter;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,22 +39,32 @@ public class CucumberForSonar extends ParentRunner<FeatureRunner> {
      *
      * @param clazz the class with the @RunWith annotation.
      * @throws java.io.IOException if there is a problem
-     * @throws org.junit.runners.model.InitializationError
-     *                             if there is another problem
+     * @throws org.junit.runners.model.InitializationError if there is another problem
      */
     public CucumberForSonar(Class clazz) throws InitializationError, IOException {
         super(clazz);
         ClassLoader classLoader = clazz.getClassLoader();
         assertNoCucumberAnnotatedMethods(clazz);
+        FormatterConverter formatterConverter = new FormatterConverter();
 
         RuntimeOptionsFactory runtimeOptionsFactory = new RuntimeOptionsFactory(clazz);
         RuntimeOptions runtimeOptions = runtimeOptionsFactory.create();
+        runtimeOptions.formatters.add(formatterConverter.convert(junitConverter(clazz)));
 
         ResourceLoader resourceLoader = new MultiLoader(classLoader);
         runtime = new Runtime(resourceLoader, classLoader, runtimeOptions);
 
-        jUnitReporter = new JUnitReporter(runtimeOptions.reporter(classLoader), runtimeOptions.formatter(classLoader), runtimeOptions.strict);
+        jUnitReporter = new JUnitReporter(runtimeOptions.reporter(classLoader),
+            runtimeOptions.formatter(classLoader)
+            , runtimeOptions.strict);
         addChildren(runtimeOptions.cucumberFeatures(resourceLoader));
+    }
+
+    /* The reason for hard-coding a path instead of adding an option will again add a configuration option that will
+    need to be configured each time and so defeats the purpose of this customization */
+    private String junitConverter(Class clazz) {
+        return String.format("junit:target/surefire-reports/TEST-%s.xml",
+            clazz.getCanonicalName());
     }
 
     @Override
@@ -88,12 +95,12 @@ public class CucumberForSonar extends ParentRunner<FeatureRunner> {
             for (Annotation annotation : method.getAnnotations()) {
                 if (annotation.annotationType().getName().startsWith("cucumber")) {
                     throw new CucumberException(
-                            "\n\n" +
-                                    "Classes annotated with @RunWith(CucumberForSonar.class) must not define any\n" +
-                                    "Step Definition or Hook methods. Their sole purpose is to serve as\n" +
-                                    "an entry point for JUnit. Step Definitions and Hooks should be defined\n" +
-                                    "in their own classes. This allows them to be reused across features.\n" +
-                                    "Offending class: " + clazz + "\n"
+                        "\n\n" +
+                            "Classes annotated with @RunWith(CucumberForSonar.class) must not define any\n" +
+                            "Step Definition or Hook methods. Their sole purpose is to serve as\n" +
+                            "an entry point for JUnit. Step Definitions and Hooks should be defined\n" +
+                            "in their own classes. This allows them to be reused across features.\n" +
+                            "Offending class: " + clazz + "\n"
                     );
                 }
             }
@@ -106,47 +113,4 @@ public class CucumberForSonar extends ParentRunner<FeatureRunner> {
         }
     }
 
-    /**
-     * This annotation can be used to give additional hints to the {@link CucumberForSonar} runner
-     * about what to run. It provides similar options to the CucumberForSonar command line used by {@link cucumber.cli.Main}
-     */
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target({ElementType.TYPE})
-    public static @interface Options {
-        /**
-         * @return true if this is a dry run
-         */
-        boolean dryRun() default false;
-
-        /**
-         * @return true if strict mode is enabled (fail if there are undefined or pending steps)
-         */
-        boolean strict() default false;
-
-        /**
-         * @return the paths to the feature(s)
-         */
-        String[] features() default {};
-
-        /**
-         * @return where to look for glue code (stepdefs and hooks)
-         */
-        String[] glue() default {};
-
-        /**
-         * @return what tags in the features should be executed
-         */
-        String[] tags() default {};
-
-        /**
-         * @return what formatter(s) to use
-         */
-        String[] format() default {};
-
-        /**
-         * @return whether or not to use monochrome output
-         */
-        boolean monochrome() default false;
-
-    }
 }

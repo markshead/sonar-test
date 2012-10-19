@@ -9,25 +9,21 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11-SNAPSHOT</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>info.cukes</groupId>
       <artifactId>cucumber-junit</artifactId>
       <version>1.0.6</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>info.cukes</groupId>
       <artifactId>cucumber-java</artifactId>
       <version>1.0.6</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>info.cukes</groupId>
       <artifactId>cucumber-picocontainer</artifactId>
       <version>1.0.6</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
   <reporting>
@@ -51,7 +47,6 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.12.4</version>
             <configuration>
-              <reportsDirectory>${project.build.directory}/reports</reportsDirectory>
               <disableXmlReport>true</disableXmlReport>
             </configuration>
         </plugin>
