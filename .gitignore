@@ -1,4 +1,11 @@
 target/
+*/target/
+*.iml
+*.iws
+*.ipr
+*/*.iml
+*/*.iws
+*/*.ipr
 .classpath
 .project
 .settings
