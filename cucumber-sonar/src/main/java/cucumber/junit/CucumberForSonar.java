@@ -1,6 +1,6 @@
 package cucumber.junit;
 
-import cucumber.formatter.FormatterConverter;
+import cucumber.formatter.FormatterFactory;
 import cucumber.io.MultiLoader;
 import cucumber.io.ResourceLoader;
 import cucumber.runtime.CucumberException;
@@ -25,9 +25,9 @@ import org.junit.runners.model.InitializationError;
  * CucumberForSonar will look for a {@code .feature} file on the classpath, using the same resource
  * path as the annotated class ({@code .class} substituted by {@code .feature}).
  * <p/>
- * Additional hints can be given to CucumberForSonar by annotating the class with {@link Options}.
+ * Additional hints can be given to CucumberForSonar by annotating the class with {@link Cucumber.Options}.
  *
- * @see Options
+ * @see Cucumber.Options
  */
 public class CucumberForSonar extends ParentRunner<FeatureRunner> {
     private final JUnitReporter jUnitReporter;
@@ -45,11 +45,11 @@ public class CucumberForSonar extends ParentRunner<FeatureRunner> {
         super(clazz);
         ClassLoader classLoader = clazz.getClassLoader();
         assertNoCucumberAnnotatedMethods(clazz);
-        FormatterConverter formatterConverter = new FormatterConverter();
+        FormatterFactory formatterFactory = new FormatterFactory();
 
         RuntimeOptionsFactory runtimeOptionsFactory = new RuntimeOptionsFactory(clazz);
         RuntimeOptions runtimeOptions = runtimeOptionsFactory.create();
-        runtimeOptions.formatters.add(formatterConverter.convert(junitConverter(clazz)));
+        runtimeOptions.formatters.add(formatterFactory.create(junitConverter(clazz)));
 
         ResourceLoader resourceLoader = new MultiLoader(classLoader);
         runtime = new Runtime(resourceLoader, classLoader, runtimeOptions);
