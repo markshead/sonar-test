@@ -1,22 +1,28 @@
 package cucumber.junit;
 
-import cucumber.formatter.FormatterFactory;
-import cucumber.io.MultiLoader;
-import cucumber.io.ResourceLoader;
-import cucumber.runtime.CucumberException;
-import cucumber.runtime.Runtime;
-import cucumber.runtime.RuntimeOptions;
-import cucumber.runtime.model.CucumberFeature;
-import cucumber.runtime.snippets.SummaryPrinter;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
+
+import cucumber.api.junit.Cucumber;
+import cucumber.runtime.CucumberException;
+import cucumber.runtime.Runtime;
+import cucumber.runtime.RuntimeOptions;
+import cucumber.runtime.formatter.FormatterFactory;
+import cucumber.runtime.io.MultiLoader;
+import cucumber.runtime.io.ResourceLoader;
+import cucumber.runtime.junit.FeatureRunner;
+import cucumber.runtime.junit.JUnitReporter;
+import cucumber.runtime.junit.RuntimeOptionsFactory;
+import cucumber.runtime.model.CucumberFeature;
+import cucumber.runtime.snippets.SummaryPrinter;
 
 /**
  * Classes annotated with {@code @RunWith(CucumberForSonar.class)} will run a CucumberForSonar Feature.
