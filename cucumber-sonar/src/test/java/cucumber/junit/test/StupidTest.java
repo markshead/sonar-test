@@ -5,6 +5,6 @@ import cucumber.junit.CucumberForSonar;
 import org.junit.runner.RunWith;
 
 @RunWith(CucumberForSonar.class)
-@Cucumber.Options(tags = { "@bean", "~@ignore" },  features = "classpath:")
+@Cucumber.Options(tags = {"@bean", "~@ignore"}, features = "classpath:")
 public class StupidTest {
 }
