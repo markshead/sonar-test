@@ -1,12 +1,11 @@
 package sonar.test;
 
-import cucumber.annotation.en.Given;
-import cucumber.annotation.en.Then;
-import cucumber.annotation.en.When;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
-import static org.junit.Assert.*;
-
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author marwol

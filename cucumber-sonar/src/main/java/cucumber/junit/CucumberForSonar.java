@@ -1,11 +1,14 @@
 package cucumber.junit;
 
-import cucumber.formatter.FormatterFactory;
-import cucumber.io.MultiLoader;
-import cucumber.io.ResourceLoader;
 import cucumber.runtime.CucumberException;
 import cucumber.runtime.Runtime;
 import cucumber.runtime.RuntimeOptions;
+import cucumber.runtime.formatter.FormatterFactory;
+import cucumber.runtime.io.MultiLoader;
+import cucumber.runtime.io.ResourceLoader;
+import cucumber.runtime.junit.FeatureRunner;
+import cucumber.runtime.junit.JUnitReporter;
+import cucumber.runtime.junit.RuntimeOptionsFactory;
 import cucumber.runtime.model.CucumberFeature;
 import cucumber.runtime.snippets.SummaryPrinter;
 import java.io.IOException;
@@ -25,9 +28,10 @@ import org.junit.runners.model.InitializationError;
  * CucumberForSonar will look for a {@code .feature} file on the classpath, using the same resource
  * path as the annotated class ({@code .class} substituted by {@code .feature}).
  * <p/>
- * Additional hints can be given to CucumberForSonar by annotating the class with {@link Cucumber.Options}.
+ * Additional hints can be given to CucumberForSonar by annotating the class with
+ * {@link cucumber.api.junit.Cucumber.Options}.
  *
- * @see Cucumber.Options
+ * @see cucumber.api.junit.Cucumber.Options
  */
 public class CucumberForSonar extends ParentRunner<FeatureRunner> {
     private final JUnitReporter jUnitReporter;
