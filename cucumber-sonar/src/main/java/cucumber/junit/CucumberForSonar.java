@@ -116,5 +116,57 @@ public class CucumberForSonar extends ParentRunner<FeatureRunner> {
             children.add(new FeatureRunner(cucumberFeature, runtime, jUnitReporter));
         }
     }
+    
+     /**
+     * This annotation can be used to give additional hints to the {@link Cucumber} runner
+     * about what to run. It provides similar options to the Cucumber command line used by {@link cucumber.api.cli.Main}
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.TYPE})
+    public static @interface Options {
+        /**
+         * @return true if this is a dry run
+         */
+        boolean dryRun() default false;
+
+        /**
+         * @return true if strict mode is enabled (fail if there are undefined or pending steps)
+         */
+        boolean strict() default false;
+
+        /**
+         * @return the paths to the feature(s)
+         */
+        String[] features() default {};
+
+        /**
+         * @return where to look for glue code (stepdefs and hooks)
+         */
+        String[] glue() default {};
+
+        /**
+         * @return what tags in the features should be executed
+         */
+        String[] tags() default {};
+
+        /**
+         * @return what formatter(s) to use
+         */
+        String[] format() default {};
+
+        /**
+         * @return whether or not to use monochrome output
+         */
+        boolean monochrome() default false;
+
+        /**
+         * Specify a patternfilter for features or scenarios
+         *
+         * @return a list of patterns
+         */
+        String[] name() default {};
+
+        String dotcucumber() default "";
+    }
 
 }
