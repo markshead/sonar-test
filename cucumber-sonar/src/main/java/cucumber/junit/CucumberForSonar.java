@@ -11,15 +11,16 @@ import cucumber.runtime.junit.JUnitReporter;
 import cucumber.runtime.junit.RuntimeOptionsFactory;
 import cucumber.runtime.model.CucumberFeature;
 import cucumber.runtime.snippets.SummaryPrinter;
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
+
+import java.io.IOException;
+import java.lang.annotation.*;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classes annotated with {@code @RunWith(CucumberForSonar.class)} will run a CucumberForSonar Feature.
